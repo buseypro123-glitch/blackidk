@@ -327,7 +327,7 @@ PowerTab:CreateToggle({
 			task.spawn(function()
 				while powerEnabled do
 					replicatedStorage:WaitForChild("Remotes"):WaitForChild("BuyStomp"):FireServer(10)
-					task.wait(0.005)
+					task.wait(0.0000005)
 				end
 			end)
 		end
