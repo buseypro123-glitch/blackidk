@@ -327,4 +327,11 @@ TeleportTab:CreateButton({
 	end
 })
 
+TeleportTab:CreateButton({
+	Name = "moon",
+	Callback = function()
+		teleportTo(448, 2875, -11)
+		Rayfield:Notify({Title = "Teleport", Content = "teleported to moon!", Duration = 2, Image = 4483362458})
+	end
+})
 print("[Auto-Farm V14] Rayfield Edition carregado com sucesso.")
