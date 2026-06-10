@@ -316,6 +316,30 @@ PowerTab:CreateToggle({
 	end
 })
 
+
+PowerTab:CreateToggle({
+	Name = "+10 Power FAST (may cause lag)",
+	CurrentValue = false,
+	Flag = "Power10Togglefast",
+	Callback = function(Value)
+		powerEnabled = Value
+		if Value then
+			task.spawn(function()
+				while powerEnabled do
+					replicatedStorage:WaitForChild("Remotes"):WaitForChild("BuyStomp"):FireServer(10)
+					task.wait(0.0000005)
+				end
+			end)
+		end
+		Rayfield:Notify({
+			Title = "+10 Power",
+			Content = Value and "Power ativado!" or "Power desativado!",
+			Duration = 2,
+			Image = 4483362458
+		})
+	end
+})
+
 -- ── Teleport Tab ──
 TeleportTab:CreateSection("Áreas")
 
