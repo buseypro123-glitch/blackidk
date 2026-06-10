@@ -275,14 +275,14 @@ MainTab:CreateButton({
                end)
             end)
             
-            task.wait(0.1) -- Pequena pausa para o servidor registar o interesse
+            task.wait(0.05) -- Pequena pausa para o servidor registar o interesse
             
             -- 2. Envia o comando de compra com os argumentos diretos (sem unpack)
             pcall(function()
                game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("UpgradeBrainrot"):FireServer(arg1, arg2)
             end)
             
-            task.wait(0.3) -- Pausa de 0.3 segundos (ideal para evitar sistemas de proteção anti-cheat)
+            task.wait(0.05) -- Pausa de 0.3 segundos (ideal para evitar sistemas de proteção anti-cheat)
          end
       end)
    end,
