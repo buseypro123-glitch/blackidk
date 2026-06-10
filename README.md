@@ -262,13 +262,27 @@ MainTab:CreateButton({
 MainTab:CreateButton({
    Name = "Upgrade all brainrots once",
    Callback = function()
-      for i = 1, 30 do
-         local args = { i, 5 }
-         game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("UpgradeBrainrot"):FireServer(unpack(args))
-         task.wait(0.1) -- Evita que o jogo trave ou que o servidor te expulse por spam
-      end
+      task.spawn(function() -- Garante que o loop roda sem travar a interface
+         for i = 1, 30 do
+            print("A tentar upgrade número: " .. tostring(i))
+            
+            local remote = game:GetService("ReplicatedStorage"):FindFirstChild("Remotes")
+               :FindFirstChild("UpgradeBrainrot")
+            
+            if remote then
+               remote:FireServer(i, 5) -- Envia os argumentos diretamente
+            else
+               print("Erro: Evento UpgradeBrainrot não encontrado!")
+               break
+            end
+            
+            task.wait(0.2) -- Aumentamos para 0.2s para dar tempo ao servidor responder
+         end
+         print("Loop terminado!")
+      end)
    end,
 })
+
 
 -- ── Power Tab ──
 PowerTab:CreateSection("Stomp Power")
