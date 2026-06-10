@@ -259,6 +259,17 @@ MainTab:CreateButton({
 	end
 })
 
+MainTab:CreateButton({
+   Name = "Upgrade all brainrots once",
+   Callback = function()
+      for i = 1, 30 do
+         local args = { i, 5 }
+         game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("UpgradeBrainrot"):FireServer(unpack(args))
+         task.wait(0.1) -- Evita que o jogo trave ou que o servidor te expulse por spam
+      end
+   end,
+})
+
 -- ── Power Tab ──
 PowerTab:CreateSection("Stomp Power")
 
