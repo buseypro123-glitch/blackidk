@@ -264,21 +264,30 @@ MainTab:CreateButton({
    Callback = function()
       task.spawn(function()
          for i = 1, 30 do
-            local args = { 1, i } -- O primeiro fica fixo, o segundo muda (1 a 30)
+            -- Definimos as duas variáveis soltas em vez de uma tabela rígida
+            local arg1 = 1
+            local arg2 = i
             
-            -- 1. Pede a informação do upgrade ao servidor (Obrigatório para atualizar o estado)
-            game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("GetUpgradeInfo"):InvokeServer(unpack(args))
+            -- 1. Pede a informação em segundo plano para o loop NÃO travar se o servidor falhar
+            task.spawn(function()
+               pcall(function()
+                  game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("GetUpgradeInfo"):InvokeServer(arg1, arg2)
+               end)
+            end)
             
-            task.wait(0.05) -- Pausa curtíssima entre pedir e comprar
+            task.wait(0.1) -- Pequena pausa para o servidor registar o interesse
             
-            -- 2. Executa a compra do upgrade correspondente
-            game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("UpgradeBrainrot"):FireServer(unpack(args))
+            -- 2. Envia o comando de compra com os argumentos diretos (sem unpack)
+            pcall(function()
+               game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("UpgradeBrainrot"):FireServer(arg1, arg2)
+            end)
             
-            task.wait(0.1) -- Pausa de segurança para evitar lag ou kick do servidor
+            task.wait(0.3) -- Pausa de 0.3 segundos (ideal para evitar sistemas de proteção anti-cheat)
          end
       end)
    end,
 })
+
 
 
 -- ── Power Tab ──
